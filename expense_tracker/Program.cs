@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 
 bool running = true;
 string? input = "";
@@ -21,17 +22,41 @@ while (running)
 
     if (input == "expenses")
     {
-        Console.WriteLine("Expenses command executed.");
-        foreach (Expense expense in expenses)
-        {
-            Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
-        }
+        PrintExpenses(expenses);
     }
 
     if (input == "add")
     {
         Console.Write("Name of the expense: ");
-        string name = Console.ReadLine();
+        bool originalName = false;
+        string? name = "";
+
+        while (!originalName)
+        {
+            try
+            {
+                name = Console.ReadLine();
+
+                foreach (Expense expense1 in expenses)
+                {
+                    if (name == expense1.name)
+                    {
+                        throw new DuplicateNameException();
+                    }
+                }
+
+                originalName = true;
+            }
+            catch (DuplicateNameException)
+            {
+                Console.WriteLine("\nThis name has already been used.");
+                Console.Write("Name of expense: ");
+            }
+
+
+        }
+
+
 
         double amount = 0;
         Console.Write("Amount: ");
@@ -55,7 +80,34 @@ while (running)
 
         Expense expense = new Expense { name = name, amount = amount, category = category };
         expenses.Add(expense);
-        Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
+        PrintExpenses(expenses);
+    }
+
+    if (input == "remove")
+    {
+        Console.Write("Name of the expense to be removed: ");
+        string name = Console.ReadLine();
+
+        foreach (Expense expense in expenses)
+        {
+            if (expense.name == name)
+            {
+                expenses.Remove(expense);
+            }
+        }
+
+        PrintExpenses(expenses);
+    }
+
+    if (input == "total")
+    {
+        double total = 0;
+        foreach (Expense expense in expenses)
+        {
+            total += expense.amount;
+        }
+
+        Console.WriteLine($"Total: ${total:F2}");
     }
 
     if (input == "help")
@@ -74,6 +126,14 @@ while (running)
 
 }
 
+static void PrintExpenses(List<Expense> expenses)
+{
+    Console.WriteLine("Expenses command executed.");
+    foreach (Expense expense in expenses)
+    {
+        Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
+    }
+}
 
 class Expense
 {
