@@ -25,74 +25,34 @@ while (running)
         PrintExpenses(expenses);
     }
 
+    // Add a new item to the expenses
     if (input == "add")
     {
-        Console.Write("Name of the expense: ");
-        bool originalName = false;
-        string? name = "";
+        string? name = AddName(expenses);
 
-        while (!originalName)
-        {
-            try
-            {
-                name = Console.ReadLine();
-
-                foreach (Expense expense1 in expenses)
-                {
-                    if (name == expense1.name)
-                    {
-                        throw new DuplicateNameException();
-                    }
-                }
-
-                originalName = true;
-            }
-            catch (DuplicateNameException)
-            {
-                Console.WriteLine("\nThis name has already been used.");
-                Console.Write("Name of expense: ");
-            }
-
-
-        }
-
-
-
-        double amount = 0;
-        Console.Write("Amount: ");
-
-        while (amount == 0)
-        {
-            string? amountInput = Console.ReadLine();
-            try
-            {
-                amount = double.Parse(amountInput);
-            }
-            catch (FormatException)
-            {
-                Console.WriteLine("Invalid amount format. Please enter a valid number.");
-                Console.Write("Amount: ");
-            }
-        }
+        double amount = AddAmount();
 
         Console.Write("Category: ");
-        string category = Console.ReadLine();
+        string? category = Console.ReadLine();
 
         Expense expense = new Expense { name = name, amount = amount, category = category };
         expenses.Add(expense);
         PrintExpenses(expenses);
     }
 
+    // Remove an item from the list of expenses
     if (input == "remove")
     {
         Console.Write("Name of the expense to be removed: ");
-        string name = Console.ReadLine();
+        string? name = Console.ReadLine();
 
-        foreach (Expense expense in expenses)
+        foreach (Expense e in expenses)
         {
-            if (expense.name == name)
+            if (e.name == name)
             {
-                expenses.Remove(expense);
+                expenses.Remove(e);
+                Console.WriteLine($"Expense '{name}' removed.");
+                break;
             }
         }
 
@@ -110,34 +70,88 @@ while (running)
         Console.WriteLine($"Total: ${total:F2}");
     }
 
-    if (input == "help")
+
+    if (input == "quit" || input == "exit" || input == "q")
+    {
+        running = false;
+    }
+    else
     {
         Console.WriteLine("The supported commands are:");
         Console.WriteLine("* add [name] [amount] [category]");
         Console.WriteLine("* remove [name]");
         Console.WriteLine("* expenses");
         Console.WriteLine("* total");
-    }
-
-    if (input == "quit" || input == "exit" || input == "q")
-    {
-        running = false;
+        Console.WriteLine();
     }
 
 }
 
 static void PrintExpenses(List<Expense> expenses)
 {
-    Console.WriteLine("Expenses command executed.");
+    Console.WriteLine("\nExpenses:");
     foreach (Expense expense in expenses)
     {
         Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
     }
+    Console.WriteLine(); // Add an empty line for better readability
+}
+
+static double AddAmount()
+{
+    double amount = 0;
+    Console.Write("Amount: ");
+
+    while (amount == 0)
+    {
+        string? amountInput = Console.ReadLine();
+
+        if (!double.TryParse(amountInput, out amount))
+        {
+            Console.WriteLine("Invalid amount format. Please enter a valid number.");
+            Console.Write("Amount: ");
+            continue;
+        }
+    }
+
+    return amount;
+}
+
+static string? AddName(List<Expense> expenses)
+{
+    Console.Write("Name of the expense: ");
+    bool originalName = false;
+    string? name = "";
+
+    while (!originalName)
+    {
+        try
+        {
+            name = Console.ReadLine();
+
+            foreach (Expense expense1 in expenses)
+            {
+                if (name == expense1.name)
+                {
+                    throw new DuplicateNameException();
+                }
+            }
+
+            originalName = true;
+        }
+        catch (DuplicateNameException)
+        {
+            Console.WriteLine("\nThis name has already been used.");
+            Console.Write("Name of expense: ");
+        }
+    }
+
+    return name;
 }
 
 class Expense
 {
-    public string name;
+    public string? name;
     public double amount = 0;
-    public string category;
+    public string? category;
 }
