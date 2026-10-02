@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 
+// Initial statements
 bool running = true;
 string? input = "";
 List<Expense> expenses = new List<Expense>();
 
+// Main Program
 while (running)
 {
 
@@ -59,6 +61,57 @@ while (running)
         PrintExpenses(expenses);
     }
 
+    if (input == "category")
+    {
+        bool categoryExists = false;
+
+        if (expenses.Count() < 1)
+        {
+            Console.WriteLine("\nThe list of expenses have items. Please add an expense first.");
+            continue;
+        }
+
+        while (!categoryExists)
+        {
+
+            Console.Write("Enter category: ");
+            string? categoryInput = Console.ReadLine();
+
+            // Check each item in expenses and print only the corresponding category
+            foreach (Expense expense in expenses)
+            {
+                if (expense.category == categoryInput)
+                {
+                    categoryExists = true;
+                }
+            }
+
+            if (categoryExists)
+            {
+                Console.WriteLine("\nExpenses in category: " + categoryInput);
+                double total = 0;
+                foreach (Expense expense in expenses)
+                {
+                    if (expense.category == categoryInput)
+                    {
+                        Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
+                        total += expense.amount;
+                    }
+                }
+                Console.WriteLine($"Total: ${total:F2}");
+                Console.WriteLine(); // Add an empty line for better readability
+            }
+
+            if (!categoryExists)
+            {
+                Console.WriteLine("\n'" + categoryInput + "' is not an existing category.");
+            }
+
+        }
+
+
+    }
+
     if (input == "total")
     {
         double total = 0;
@@ -75,7 +128,8 @@ while (running)
     {
         running = false;
     }
-    else
+
+    if (input == "help")
     {
         Console.WriteLine("The supported commands are:");
         Console.WriteLine("* add [name] [amount] [category]");
@@ -87,6 +141,7 @@ while (running)
 
 }
 
+// Helper functions
 static void PrintExpenses(List<Expense> expenses)
 {
     Console.WriteLine("\nExpenses:");
@@ -129,9 +184,9 @@ static string? AddName(List<Expense> expenses)
         {
             name = Console.ReadLine();
 
-            foreach (Expense expense1 in expenses)
+            foreach (Expense e in expenses)
             {
-                if (name == expense1.name)
+                if (name == e.name)
                 {
                     throw new DuplicateNameException();
                 }
@@ -149,6 +204,7 @@ static string? AddName(List<Expense> expenses)
     return name;
 }
 
+// Classes
 class Expense
 {
     public string? name;
