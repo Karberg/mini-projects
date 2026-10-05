@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 
-// Initial statements
+#region Initial Statements
 bool running = true;
 string? input = "";
 List<Expense> expenses = new List<Expense>();
+#endregion
 
-// Main Program
+#region Main Program
 while (running)
 {
 
@@ -135,13 +134,16 @@ while (running)
         Console.WriteLine("* add [name] [amount] [category]");
         Console.WriteLine("* remove [name]");
         Console.WriteLine("* expenses");
+        Console.WriteLine("* category");
         Console.WriteLine("* total");
+        Console.WriteLine("* quit || q || exit");
         Console.WriteLine();
     }
 
 }
+#endregion
 
-// Helper functions
+#region Helper methods
 static void PrintExpenses(List<Expense> expenses)
 {
     Console.WriteLine("\nExpenses:");
@@ -203,11 +205,4 @@ static string? AddName(List<Expense> expenses)
 
     return name;
 }
-
-// Classes
-class Expense
-{
-    public string? name;
-    public double amount = 0;
-    public string? category;
-}
+#endregion
