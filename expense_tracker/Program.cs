@@ -3,13 +3,13 @@
 #region Initial Statements
 bool running = true;
 string? input = "";
+ExpenseDatabase expenseDB = new ExpenseDatabase();
 List<Expense> expenses = new List<Expense>();
 #endregion
 
 #region Main Program
 while (running)
 {
-
     Console.Write("Please input a command: ");
     input = Console.ReadLine();
 
@@ -36,7 +36,7 @@ while (running)
         Console.Write("Category: ");
         string? category = Console.ReadLine();
 
-        Expense expense = new Expense { name = name, amount = amount, category = category };
+        Expense expense = new Expense(name, amount, category);
         expenses.Add(expense);
         PrintExpenses(expenses);
     }

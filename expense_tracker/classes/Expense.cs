@@ -1,11 +1,12 @@
-class Expense
+public class Expense
 {
-    // Attributes
+    #region Attributes
     public string? name;
     public double amount = 0;
     public string? category;
+    #endregion
 
-    // Constructors
+    #region Constructors
     public Expense() { }
     public Expense(string? name, double amount, string? category)
     {
@@ -13,9 +14,13 @@ class Expense
         this.amount = amount;
         this.category = category;
     }
+    #endregion
 
-    // Methods
+    #region Methods
+    // Method for adding a name, which only allows original names
+    // Access the ExpensesDatabase
 
 
 
+    #endregion
 }
