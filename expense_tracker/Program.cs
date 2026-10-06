@@ -11,6 +11,7 @@ List<Expense> expenses = new List<Expense>();
 Console.WriteLine("Expense Tracker\nYou can enter the following commands:");
 PrintCommandList();
 
+AddTestData(expenses);
 
 while (running)
 {
@@ -142,10 +143,17 @@ while (running)
         Console.WriteLine($"Total: ${total:F2}");
     }
 
+    if (command == Command.expensive)
+    {
+        Expense mostExpensive = MostExpensive(expenses);
+
+        Console.WriteLine($"Most Expensive item: {mostExpensive.name}: ${mostExpensive.amount:F2} ({mostExpensive.category})");
+    }
+
 
     if (command == Command.exit)
     {
-        running = false;
+        return;
     }
 
     if (input == "help")
@@ -153,7 +161,6 @@ while (running)
         Console.WriteLine("The supported commands are:");
         PrintCommandList();
     }
-
 
     Console.WriteLine();
 
@@ -169,8 +176,6 @@ static void PrintExpenses(List<Expense> expenses)
         Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
     }
 }
-
-
 
 static double AddAmount()
 {
@@ -234,4 +239,62 @@ static void PrintCommandList()
     Console.WriteLine($"6. [{Command.expensive}] - Find the most expensive item");
     Console.WriteLine($"0. [{Command.exit}]");
 }
+
+static Expense MostExpensive(List<Expense> expenses)
+{
+    double highest = 0;
+    Expense mostExpensive = new Expense();
+    foreach (Expense expense in expenses)
+    {
+        if (expense.amount > highest)
+        {
+            highest = expense.amount;
+            mostExpensive = expense;
+        }
+    }
+    return mostExpensive;
+}
+
+static void AddTestData(List<Expense> expenses)
+{
+    expenses.AddRange(new[]
+    {
+        new Expense("Banana", 20, "Fruit"),
+        new Expense("Apple", 15, "Fruit"),
+        new Expense("Milk", 18, "Groceries"),
+        new Expense("Bread", 25, "Groceries"),
+        new Expense("Chicken", 65, "Groceries"),
+        new Expense("Coffee", 42, "Food & Drinks"),
+        new Expense("Lunch", 85, "Food & Drinks"),
+        new Expense("Pizza", 110, "Food & Drinks"),
+
+        new Expense("Bus Ticket", 24, "Transport"),
+        new Expense("Train Ticket", 95, "Transport"),
+        new Expense("Gas", 450, "Transport"),
+        new Expense("Parking", 35, "Transport"),
+
+        new Expense("Netflix", 99, "Subscriptions"),
+        new Expense("Spotify", 109, "Subscriptions"),
+
+        new Expense("T-Shirt", 200, "Clothing"),
+        new Expense("Shoes", 750, "Clothing"),
+
+        new Expense("Cinema", 130, "Entertainment"),
+        new Expense("Video Game", 450, "Entertainment"),
+
+        new Expense("Electricity", 550, "Bills"),
+        new Expense("Internet", 299, "Bills"),
+        new Expense("Phone Bill", 149, "Bills"),
+        new Expense("Rent", 5200, "Bills"),
+
+        new Expense("Gym Membership", 250, "Health"),
+        new Expense("Medicine", 85, "Health"),
+
+        new Expense("Notebook", 35, "School"),
+        new Expense("Textbook", 450, "School"),
+
+        new Expense("Birthday Gift", 300, "Gifts")
+    });
+}
+
 #endregion
