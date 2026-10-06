@@ -3,31 +3,50 @@
 #region Initial Statements
 bool running = true;
 string? input = "";
-ExpenseDatabase expenseDB = new ExpenseDatabase();
+ExpenseDatabase expenseDb = new ExpenseDatabase();
 List<Expense> expenses = new List<Expense>();
 #endregion
 
 #region Main Program
+Console.WriteLine("Expense Tracker\nYou can enter the following commands:");
+PrintCommandList();
+
+
 while (running)
 {
     Console.Write("Please input a command: ");
+    Command command = Command.help;
     input = Console.ReadLine();
+    Console.WriteLine();
 
     // Error handling for null input
-    if (input == null)
+    if (input is not null && !Enum.IsDefined(typeof(Command), input))
     {
-        Console.WriteLine("Input cannot be null. Please try again.");
+        Console.WriteLine("Please write a valid command.\nUse 'help' to display a list of commands");
         continue;
     }
-    input = input?.Trim().ToLower(); // Trim whitespace and convert to lowercase
 
-    if (input == "expenses")
+    if (input is not null)
+    {
+        input = input.Trim().ToLower(); // Trim whitespace and convert to lowercase
+
+        if (Enum.IsDefined(typeof(Command), input))
+        {
+            command = (Command)Enum.Parse(typeof(Command), input);
+        }
+        else
+        {
+            command = Command.help;
+        }
+    }
+
+    if (command == Command.expenses)
     {
         PrintExpenses(expenses);
     }
 
     // Add a new item to the expenses
-    if (input == "add")
+    if (command == Command.add)
     {
         string? name = AddName(expenses);
 
@@ -42,7 +61,7 @@ while (running)
     }
 
     // Remove an item from the list of expenses
-    if (input == "remove")
+    if (command == Command.remove)
     {
         Console.Write("Name of the expense to be removed: ");
         string? name = Console.ReadLine();
@@ -60,13 +79,14 @@ while (running)
         PrintExpenses(expenses);
     }
 
-    if (input == "category")
+    if (command == Command.category)
     {
         bool categoryExists = false;
 
         if (expenses.Count() < 1)
         {
             Console.WriteLine("\nThe list of expenses have items. Please add an expense first.");
+            Console.WriteLine();
             continue;
         }
 
@@ -111,7 +131,7 @@ while (running)
 
     }
 
-    if (input == "total")
+    if (command == Command.total)
     {
         double total = 0;
         foreach (Expense expense in expenses)
@@ -123,7 +143,7 @@ while (running)
     }
 
 
-    if (input == "quit" || input == "exit" || input == "q")
+    if (command == Command.exit)
     {
         running = false;
     }
@@ -131,14 +151,11 @@ while (running)
     if (input == "help")
     {
         Console.WriteLine("The supported commands are:");
-        Console.WriteLine("* add [name] [amount] [category]");
-        Console.WriteLine("* remove [name]");
-        Console.WriteLine("* expenses");
-        Console.WriteLine("* category");
-        Console.WriteLine("* total");
-        Console.WriteLine("* quit || q || exit");
-        Console.WriteLine();
+        PrintCommandList();
     }
+
+
+    Console.WriteLine();
 
 }
 #endregion
@@ -151,8 +168,9 @@ static void PrintExpenses(List<Expense> expenses)
     {
         Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
     }
-    Console.WriteLine(); // Add an empty line for better readability
 }
+
+
 
 static double AddAmount()
 {
@@ -204,5 +222,16 @@ static string? AddName(List<Expense> expenses)
     }
 
     return name;
+}
+
+static void PrintCommandList()
+{
+    Console.WriteLine($"1. [{Command.add}] - Add a new expense");
+    Console.WriteLine($"2. [{Command.remove}] - Remove an expense");
+    Console.WriteLine($"3. [{Command.expenses}] - Show all expenses");
+    Console.WriteLine($"4. [{Command.category}] - Show expenses in a given category");
+    Console.WriteLine($"5. [{Command.total}] - Calculate the total of all expenses");
+    Console.WriteLine($"6. [{Command.expensive}] - Find the most expensive item");
+    Console.WriteLine($"0. [{Command.exit}]");
 }
 #endregion
