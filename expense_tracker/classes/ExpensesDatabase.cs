@@ -61,4 +61,18 @@ public class ExpenseDatabase
     {
         expenses.Add(expense);
     }
+
+    public bool NameExists(string name)
+    {
+        foreach (Expense e in expenses)
+        {
+            if (e.name == null) return false;
+
+            if (name.Trim().ToLower() == e.name.Trim().ToLower())
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 }

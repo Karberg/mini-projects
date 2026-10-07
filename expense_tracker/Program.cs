@@ -48,7 +48,7 @@ while (running)
     // Add a new item to the expenses
     if (command == Command.add)
     {
-        string? name = AddName(expenseDb.expenses);
+        string? name = AddName(expenseDb);
 
         double amount = AddAmount();
 
@@ -189,36 +189,26 @@ static double AddAmount()
     return amount;
 }
 
-static string? AddName(List<Expense> expenses)
+static string? AddName(ExpenseDatabase expenseDb)
 {
-    Console.Write("Name of the expense: ");
-    bool originalName = false;
-    string? name = "";
+    string? name;
 
-    while (!originalName)
+    while (true)
     {
-        try
+        Console.Write("Name of expense: ");
+
+        name = Console.ReadLine();
+        if (name == null) continue;
+
+        if (!expenseDb.NameExists(name))
         {
-            name = Console.ReadLine();
-
-            foreach (Expense e in expenses)
-            {
-                if (name == e.name)
-                {
-                    throw new DuplicateNameException();
-                }
-            }
-
-            originalName = true;
+            return name;
         }
-        catch (DuplicateNameException)
+        else
         {
             Console.WriteLine("\nThis name has already been used.");
-            Console.Write("Name of expense: ");
         }
     }
-
-    return name;
 }
 
 static void PrintCommandList()
