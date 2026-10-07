@@ -144,9 +144,13 @@ while (running)
 
     if (command == Command.expensive)
     {
-        Expense mostExpensive = MostExpensive(expenseDb.expenses);
+        Expense? mostExpensive = expenseDb.GetMostExpensive();
 
-        Console.WriteLine($"Most Expensive item: {mostExpensive.name}: ${mostExpensive.amount:F2} ({mostExpensive.category})");
+        if (mostExpensive != null)
+        {
+            Console.WriteLine($"Most Expensive item: {mostExpensive.name}: ${mostExpensive.amount:F2} ({mostExpensive.category})");
+        }
+        else Console.WriteLine("There are no expenses in the database.");
     }
 
 
@@ -237,21 +241,6 @@ static void PrintCommandList()
     Console.WriteLine($"5. [{Command.total}] - Calculate the total of all expenses");
     Console.WriteLine($"6. [{Command.expensive}] - Find the most expensive item");
     Console.WriteLine($"0. [{Command.exit}]");
-}
-
-static Expense MostExpensive(List<Expense> expenses)
-{
-    double highest = 0;
-    Expense mostExpensive = new Expense();
-    foreach (Expense expense in expenses)
-    {
-        if (expense.amount > highest)
-        {
-            highest = expense.amount;
-            mostExpensive = expense;
-        }
-    }
-    return mostExpensive;
 }
 
 static void AddTestData(List<Expense> expenses)
