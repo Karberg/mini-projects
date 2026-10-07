@@ -32,4 +32,14 @@ public class ExpenseDatabase
         }
         return mostExpensive;
     }
+
+    public double CalculateTotal()
+    {
+        double total = 0;
+        foreach (Expense expense in expenses)
+        {
+            total += expense.amount;
+        }
+        return total;
+    }
 }

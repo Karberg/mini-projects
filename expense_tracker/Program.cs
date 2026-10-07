@@ -118,7 +118,6 @@ while (running)
                     }
                 }
                 Console.WriteLine($"Total: ${total:F2}");
-                Console.WriteLine(); // Add an empty line for better readability
             }
 
             if (!categoryExists)
@@ -133,13 +132,7 @@ while (running)
 
     if (command == Command.total)
     {
-        double total = 0;
-        foreach (Expense expense in expenseDb.expenses)
-        {
-            total += expense.amount;
-        }
-
-        Console.WriteLine($"Total: ${total:F2}");
+        Console.WriteLine($"Total: ${expenseDb.CalculateTotal():F2}");
     }
 
     if (command == Command.expensive)
