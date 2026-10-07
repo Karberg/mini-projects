@@ -4,14 +4,13 @@
 bool running = true;
 string? input = "";
 ExpenseDatabase expenseDb = new ExpenseDatabase();
-List<Expense> expenses = new List<Expense>();
 #endregion
 
 #region Main Program
 Console.WriteLine("Expense Tracker\nYou can enter the following commands:");
 PrintCommandList();
 
-AddTestData(expenses);
+AddTestData(expenseDb.expenses);
 
 while (running)
 {
@@ -43,13 +42,13 @@ while (running)
 
     if (command == Command.expenses)
     {
-        PrintExpenses(expenses);
+        PrintExpenses(expenseDb.expenses);
     }
 
     // Add a new item to the expenses
     if (command == Command.add)
     {
-        string? name = AddName(expenses);
+        string? name = AddName(expenseDb.expenses);
 
         double amount = AddAmount();
 
@@ -57,8 +56,8 @@ while (running)
         string? category = Console.ReadLine();
 
         Expense expense = new Expense(name, amount, category);
-        expenses.Add(expense);
-        PrintExpenses(expenses);
+        expenseDb.expenses.Add(expense);
+        PrintExpenses(expenseDb.expenses);
     }
 
     // Remove an item from the list of expenses
@@ -67,24 +66,24 @@ while (running)
         Console.Write("Name of the expense to be removed: ");
         string? name = Console.ReadLine();
 
-        foreach (Expense e in expenses)
+        foreach (Expense e in expenseDb.expenses)
         {
             if (e.name == name)
             {
-                expenses.Remove(e);
+                expenseDb.expenses.Remove(e);
                 Console.WriteLine($"Expense '{name}' removed.");
                 break;
             }
         }
 
-        PrintExpenses(expenses);
+        PrintExpenses(expenseDb.expenses);
     }
 
     if (command == Command.category)
     {
         bool categoryExists = false;
 
-        if (expenses.Count() < 1)
+        if (expenseDb.expenses.Count() < 1)
         {
             Console.WriteLine("\nThe list of expenses have items. Please add an expense first.");
             Console.WriteLine();
@@ -98,7 +97,7 @@ while (running)
             string? categoryInput = Console.ReadLine();
 
             // Check each item in expenses and print only the corresponding category
-            foreach (Expense expense in expenses)
+            foreach (Expense expense in expenseDb.expenses)
             {
                 if (expense.category == categoryInput)
                 {
@@ -110,7 +109,7 @@ while (running)
             {
                 Console.WriteLine("\nExpenses in category: " + categoryInput);
                 double total = 0;
-                foreach (Expense expense in expenses)
+                foreach (Expense expense in expenseDb.expenses)
                 {
                     if (expense.category == categoryInput)
                     {
@@ -135,7 +134,7 @@ while (running)
     if (command == Command.total)
     {
         double total = 0;
-        foreach (Expense expense in expenses)
+        foreach (Expense expense in expenseDb.expenses)
         {
             total += expense.amount;
         }
@@ -145,7 +144,7 @@ while (running)
 
     if (command == Command.expensive)
     {
-        Expense mostExpensive = MostExpensive(expenses);
+        Expense mostExpensive = MostExpensive(expenseDb.expenses);
 
         Console.WriteLine($"Most Expensive item: {mostExpensive.name}: ${mostExpensive.amount:F2} ({mostExpensive.category})");
     }
