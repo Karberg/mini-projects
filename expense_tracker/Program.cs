@@ -56,7 +56,7 @@ while (running)
         string? category = Console.ReadLine();
 
         Expense expense = new Expense(name, amount, category);
-        expenseDb.expenses.Add(expense);
+        expenseDb.AddExpense(expense);
         PrintExpenses(expenseDb.expenses);
     }
 

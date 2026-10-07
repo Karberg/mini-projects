@@ -56,4 +56,9 @@ public class ExpenseDatabase
         }
         return false;
     }
+
+    public void AddExpense(Expense expense)
+    {
+        expenses.Add(expense);
+    }
 }
