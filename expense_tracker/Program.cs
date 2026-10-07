@@ -66,17 +66,13 @@ while (running)
         Console.Write("Name of the expense to be removed: ");
         string? name = Console.ReadLine();
 
-        foreach (Expense e in expenseDb.expenses)
+        if (name is not null && expenseDb.RemoveExpense(name) == true)
         {
-            if (e.name == name)
-            {
-                expenseDb.expenses.Remove(e);
-                Console.WriteLine($"Expense '{name}' removed.");
-                break;
-            }
+            Console.WriteLine($"Expense '{name}' removed.");
+            PrintExpenses(expenseDb.expenses);
         }
+        else Console.WriteLine("The given expense does not exist in database");
 
-        PrintExpenses(expenseDb.expenses);
     }
 
     if (command == Command.category)

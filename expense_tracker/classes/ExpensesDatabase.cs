@@ -42,4 +42,18 @@ public class ExpenseDatabase
         }
         return total;
     }
+
+    public bool RemoveExpense(string name)
+    {
+        name.Trim().ToLower();
+        foreach (Expense e in expenses)
+        {
+            if (e.name == name)
+            {
+                expenses.Remove(e);
+                return true;
+            }
+        }
+        return false;
+    }
 }
