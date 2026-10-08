@@ -119,6 +119,31 @@ The goal is to understand the underlying programming concepts before relying on 
 
 ---
 
+## Use of AI
+
+AI has been used as a learning and feedback tool while working on the projects in this repository.
+
+So far, I have only used ChatGPT through a single ongoing conversation related to these mini-projects.
+
+The AI has mainly been used to:
+
+- Suggest suitable mini-project ideas based on my current programming level
+- Explain programming concepts when I was unsure about them
+- Review code that I had already written
+- Point out bugs, edge cases, and possible improvements
+- Give feedback on code structure and object-oriented design
+- Suggest refactoring tasks
+- Help structure development tasks as GitHub Issues
+- Help write and improve repository documentation
+
+I use AI primarily as a tutor rather than as a code generator. I aim to write and understand the implementation myself before asking for feedback.
+
+When AI suggests changes, I review the suggestions and try to understand why they improve the program before applying them.
+
+The purpose of using AI in this repository is to support learning and reflection, not to replace the problem-solving and programming process.
+
+---
+
 ## GitHub Issues
 
 GitHub Issues are used to keep track of improvements, bugs, and refactoring tasks.
