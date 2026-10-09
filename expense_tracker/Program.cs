@@ -77,50 +77,30 @@ while (running)
 
     if (command == Command.category)
     {
-        bool categoryExists = false;
-
         if (expenseDb.expenses.Count() < 1)
         {
-            Console.WriteLine("\nThe list of expenses have items. Please add an expense first.");
+            Console.WriteLine("\nThe list of expenses have no items. Please add an expense first.");
             Console.WriteLine();
             continue;
         }
 
-        while (!categoryExists)
+        while (true)
         {
-
             Console.Write("Enter category: ");
             string? categoryInput = Console.ReadLine();
 
-            // Check each item in expenses and print only the corresponding category
-            foreach (Expense expense in expenseDb.expenses)
-            {
-                if (expense.category == categoryInput)
-                {
-                    categoryExists = true;
-                }
-            }
+            if (categoryInput == null) continue;
+            categoryInput.Trim().ToLower();
 
-            if (categoryExists)
-            {
-                Console.WriteLine("\nExpenses in category: " + categoryInput);
-                double total = 0;
-                foreach (Expense expense in expenseDb.expenses)
-                {
-                    if (expense.category == categoryInput)
-                    {
-                        Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
-                        total += expense.amount;
-                    }
-                }
-                Console.WriteLine($"Total: ${total:F2}");
-            }
+            List<Expense> filteredExpenses = expenseDb.GetExpensesByCategory(categoryInput);
 
-            if (!categoryExists)
+            // Check if the given category has any elements.
+            if (filteredExpenses.Count() > 1)
             {
-                Console.WriteLine("\n'" + categoryInput + "' is not an existing category.");
+                PrintExpenses(filteredExpenses);
+                break;
             }
-
+            Console.WriteLine("\n'" + categoryInput + "' is not an existing category.");
         }
 
 

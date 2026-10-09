@@ -75,4 +75,19 @@ public class ExpenseDatabase
         }
         return false;
     }
+
+    public List<Expense> GetExpensesByCategory(string category)
+    {
+        category.Trim().ToLower();
+        List<Expense> filteredExpenses = new List<Expense>();
+
+        foreach (Expense expense in expenses)
+        {
+            if (expense.category != null && expense.category.Trim().ToLower() == category)
+            {
+                filteredExpenses.Add(expense);
+            }
+        }
+        return filteredExpenses;
+    }
 }
