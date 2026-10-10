@@ -20,12 +20,6 @@ while (running)
     Console.WriteLine();
 
     // Error handling for null input
-    if (input is not null && !Enum.IsDefined(typeof(Command), input))
-    {
-        Console.WriteLine("Please write a valid command.\nUse 'help' to display a list of commands");
-        continue;
-    }
-
     if (input is not null)
     {
         input = input.Trim().ToLower(); // Trim whitespace and convert to lowercase
@@ -36,7 +30,8 @@ while (running)
         }
         else
         {
-            command = Command.help;
+            Console.WriteLine("Please write a valid command.\nUse 'help' to display a list of commands.\n");
+            continue;
         }
     }
 
@@ -95,7 +90,7 @@ while (running)
             List<Expense> filteredExpenses = expenseDb.GetExpensesByCategory(categoryInput);
 
             // Check if the given category has any elements.
-            if (filteredExpenses.Count() > 1)
+            if (filteredExpenses.Count() > 0)
             {
                 PrintExpenses(filteredExpenses);
                 break;
