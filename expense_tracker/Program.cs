@@ -117,7 +117,7 @@ while (running)
 
         if (mostExpensive != null)
         {
-            Console.WriteLine($"Most Expensive item: {mostExpensive.name}: ${mostExpensive.amount:F2} ({mostExpensive.category})");
+            Console.WriteLine($"Most Expensive item: {mostExpensive.Name}: ${mostExpensive.Amount:F2} ({mostExpensive.Category})");
         }
         else Console.WriteLine("There are no expenses in the database.");
     }
@@ -145,7 +145,7 @@ static void PrintExpenses(List<Expense> expenses)
     Console.WriteLine("\nExpenses:");
     foreach (Expense expense in expenses)
     {
-        Console.WriteLine($"- {expense.name}: ${expense.amount:F2} ({expense.category})");
+        Console.WriteLine($"- {expense.Name}: ${expense.Amount:F2} ({expense.Category})");
     }
 }
 

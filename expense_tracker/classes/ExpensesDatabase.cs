@@ -24,9 +24,9 @@ public class ExpenseDatabase
         // Search for most expensive
         foreach (Expense expense in expenses)
         {
-            if (expense.amount > highest)
+            if (expense.Amount > highest)
             {
-                highest = expense.amount;
+                highest = expense.Amount;
                 mostExpensive = expense;
             }
         }
@@ -38,7 +38,7 @@ public class ExpenseDatabase
         double total = 0;
         foreach (Expense expense in expenses)
         {
-            total += expense.amount;
+            total += expense.Amount;
         }
         return total;
     }
@@ -48,7 +48,7 @@ public class ExpenseDatabase
         name.Trim().ToLower();
         foreach (Expense e in expenses)
         {
-            if (e.name == name)
+            if (e.Name == name)
             {
                 expenses.Remove(e);
                 return true;
@@ -66,9 +66,9 @@ public class ExpenseDatabase
     {
         foreach (Expense e in expenses)
         {
-            if (e.name == null) return false;
+            if (e.Name == null) return false;
 
-            if (name.Trim().ToLower() == e.name.Trim().ToLower())
+            if (name.Trim().ToLower() == e.Name.Trim().ToLower())
             {
                 return true;
             }
@@ -83,7 +83,7 @@ public class ExpenseDatabase
 
         foreach (Expense expense in expenses)
         {
-            if (expense.category != null && expense.category.Trim().ToLower() == category)
+            if (expense.Category != null && expense.Category.Trim().ToLower() == category)
             {
                 filteredExpenses.Add(expense);
             }
