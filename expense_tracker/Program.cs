@@ -149,13 +149,13 @@ static double AddAmount()
     double amount = 0;
     Console.Write("Amount: ");
 
-    while (amount == 0)
+    while (amount <= 0)
     {
         string? amountInput = Console.ReadLine();
 
-        if (!double.TryParse(amountInput, out amount))
+        if (!double.TryParse(amountInput, out amount) || amount <= 0)
         {
-            Console.WriteLine("Invalid amount format. Please enter a valid number.");
+            Console.WriteLine("\nInvalid amount format. \nPlease enter a valid number, greater than zero.\n");
             Console.Write("Amount: ");
             continue;
         }
