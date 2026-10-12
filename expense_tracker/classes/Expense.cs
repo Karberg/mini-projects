@@ -15,12 +15,4 @@ public class Expense
         Category = category;
     }
     #endregion
-
-    #region Methods
-    // Method for adding a name, which only allows original names
-    // Access the ExpensesDatabase
-
-
-
-    #endregion
 }
