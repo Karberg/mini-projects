@@ -1,7 +1,4 @@
-﻿using System.Data;
-using System.Security.Cryptography.X509Certificates;
-
-#region Initial Statements
+﻿#region Initial Statements
 bool running = true;
 string? input = "";
 ExpenseDatabase expenseDb = new ExpenseDatabase();
