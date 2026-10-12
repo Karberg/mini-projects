@@ -1,4 +1,5 @@
 ﻿using System.Data;
+using System.Security.Cryptography.X509Certificates;
 
 #region Initial Statements
 bool running = true;
@@ -10,7 +11,7 @@ ExpenseDatabase expenseDb = new ExpenseDatabase();
 Console.WriteLine("Expense Tracker\nYou can enter the following commands:");
 PrintCommandList();
 
-AddTestData(expenseDb.expenses);
+expenseDb.AddTestData();
 
 while (running)
 {
@@ -37,7 +38,7 @@ while (running)
 
     if (command == Command.expenses)
     {
-        PrintExpenses(expenseDb.expenses);
+        PrintExpenses(expenseDb.GetExpenses());
     }
 
     // Add a new item to the expenses
@@ -52,7 +53,7 @@ while (running)
 
         Expense expense = new Expense(name, amount, category);
         expenseDb.AddExpense(expense);
-        PrintExpenses(expenseDb.expenses);
+        PrintExpenses(expenseDb.GetExpenses());
     }
 
     // Remove an item from the list of expenses
@@ -64,7 +65,7 @@ while (running)
         if (name is not null && expenseDb.RemoveExpense(name) == true)
         {
             Console.WriteLine($"Expense '{name}' removed.");
-            PrintExpenses(expenseDb.expenses);
+            PrintExpenses(expenseDb.GetExpenses());
         }
         else Console.WriteLine("The given expense does not exist in database");
 
@@ -72,7 +73,7 @@ while (running)
 
     if (command == Command.category)
     {
-        if (expenseDb.expenses.Count() < 1)
+        if (expenseDb.GetExpenses().Count() < 1)
         {
             Console.WriteLine("\nThe list of expenses have no items. Please add an expense first.");
             Console.WriteLine();
@@ -85,9 +86,8 @@ while (running)
             string? categoryInput = Console.ReadLine();
 
             if (categoryInput == null) continue;
-            categoryInput.Trim().ToLower();
 
-            List<Expense> filteredExpenses = expenseDb.GetExpensesByCategory(categoryInput);
+            List<Expense> filteredExpenses = expenseDb.GetExpensesByCategory(categoryInput.Trim().ToLower());
 
             // Check if the given category has any elements.
             if (filteredExpenses.Count() > 0)
@@ -137,6 +137,7 @@ while (running)
 #region Helper methods
 static void PrintExpenses(List<Expense> expenses)
 {
+
     Console.WriteLine("\nExpenses:");
     foreach (Expense expense in expenses)
     {
@@ -195,48 +196,6 @@ static void PrintCommandList()
     Console.WriteLine($"5. [{Command.total}] - Calculate the total of all expenses");
     Console.WriteLine($"6. [{Command.expensive}] - Find the most expensive item");
     Console.WriteLine($"0. [{Command.exit}]");
-}
-
-static void AddTestData(List<Expense> expenses)
-{
-    expenses.AddRange(new[]
-    {
-        new Expense("Banana", 20, "Fruit"),
-        new Expense("Apple", 15, "Fruit"),
-        new Expense("Milk", 18, "Groceries"),
-        new Expense("Bread", 25, "Groceries"),
-        new Expense("Chicken", 65, "Groceries"),
-        new Expense("Coffee", 42, "Food & Drinks"),
-        new Expense("Lunch", 85, "Food & Drinks"),
-        new Expense("Pizza", 110, "Food & Drinks"),
-
-        new Expense("Bus Ticket", 24, "Transport"),
-        new Expense("Train Ticket", 95, "Transport"),
-        new Expense("Gas", 450, "Transport"),
-        new Expense("Parking", 35, "Transport"),
-
-        new Expense("Netflix", 99, "Subscriptions"),
-        new Expense("Spotify", 109, "Subscriptions"),
-
-        new Expense("T-Shirt", 200, "Clothing"),
-        new Expense("Shoes", 750, "Clothing"),
-
-        new Expense("Cinema", 130, "Entertainment"),
-        new Expense("Video Game", 450, "Entertainment"),
-
-        new Expense("Electricity", 550, "Bills"),
-        new Expense("Internet", 299, "Bills"),
-        new Expense("Phone Bill", 149, "Bills"),
-        new Expense("Rent", 5200, "Bills"),
-
-        new Expense("Gym Membership", 250, "Health"),
-        new Expense("Medicine", 85, "Health"),
-
-        new Expense("Notebook", 35, "School"),
-        new Expense("Textbook", 450, "School"),
-
-        new Expense("Birthday Gift", 300, "Gifts")
-    });
 }
 
 #endregion

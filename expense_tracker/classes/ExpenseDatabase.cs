@@ -1,15 +1,15 @@
+using System.Dynamic;
+
 public class ExpenseDatabase
 {
     // Attributes
-    public Expense expense = new Expense();
-    public List<Expense> expenses = new List<Expense>();
-
-    // Constructors
-
-
-
+    List<Expense> expenses = new();
 
     // Methods
+    public List<Expense> GetExpenses()
+    {
+        return new List<Expense>(expenses);
+    }
     public Expense? GetMostExpensive()
     {
         double highest = 0;
@@ -89,5 +89,47 @@ public class ExpenseDatabase
             }
         }
         return filteredExpenses;
+    }
+
+    public void AddTestData()
+    {
+        expenses.AddRange(new[]
+        {
+        new Expense("Banana", 20, "Fruit"),
+        new Expense("Apple", 15, "Fruit"),
+        new Expense("Milk", 18, "Groceries"),
+        new Expense("Bread", 25, "Groceries"),
+        new Expense("Chicken", 65, "Groceries"),
+        new Expense("Coffee", 42, "Food & Drinks"),
+        new Expense("Lunch", 85, "Food & Drinks"),
+        new Expense("Pizza", 110, "Food & Drinks"),
+
+        new Expense("Bus Ticket", 24, "Transport"),
+        new Expense("Train Ticket", 95, "Transport"),
+        new Expense("Gas", 450, "Transport"),
+        new Expense("Parking", 35, "Transport"),
+
+        new Expense("Netflix", 99, "Subscriptions"),
+        new Expense("Spotify", 109, "Subscriptions"),
+
+        new Expense("T-Shirt", 200, "Clothing"),
+        new Expense("Shoes", 750, "Clothing"),
+
+        new Expense("Cinema", 130, "Entertainment"),
+        new Expense("Video Game", 450, "Entertainment"),
+
+        new Expense("Electricity", 550, "Bills"),
+        new Expense("Internet", 299, "Bills"),
+        new Expense("Phone Bill", 149, "Bills"),
+        new Expense("Rent", 5200, "Bills"),
+
+        new Expense("Gym Membership", 250, "Health"),
+        new Expense("Medicine", 85, "Health"),
+
+        new Expense("Notebook", 35, "School"),
+        new Expense("Textbook", 450, "School"),
+
+        new Expense("Birthday Gift", 300, "Gifts")
+    });
     }
 }
